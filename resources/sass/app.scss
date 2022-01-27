@@ -1,17 +1,1 @@
-//@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');
-@tailwind base;
-input:invalid, textarea:invalid, select:invalid {
-    box-shadow: none;
-}
-@tailwind components;
 
-@tailwind utilities;
-
-[x-cloak] {
-    display: none;
-}
-@layer base {
-    .activated {
-        @apply bg-purple-600 px-3 py-2 text-white;
-    }
-}

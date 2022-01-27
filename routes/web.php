@@ -43,3 +43,27 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::get('admin', DashboardComponent::class)->name('admin.dashboard');
+//setup
+Route::get('admin/setup/label', \App\Http\Livewire\Admin\Setup\LabelComponent::class)->name('admin.setup.label');
+Route::get('admin/setup/session', \App\Http\Livewire\Admin\Setup\SessionComponent::class)->name('admin.setup.session');
+Route::get('admin/setup/group', \App\Http\Livewire\Admin\Setup\GroupComponent::class)->name('admin.setup.group');
+Route::get('admin/setup/medium', \App\Http\Livewire\Admin\Setup\MediumComponent::class)->name('admin.setup.medium');
+Route::get('admin/setup/shift', \App\Http\Livewire\Admin\Setup\ShiftComponent::class)->name('admin.setup.shift');
+Route::get('admin/setup/section', \App\Http\Livewire\Admin\Setup\SectionComponent::class)->name('admin.setup.section');
+
+
+
+
+
+
+Route::get('admin/user', \App\Http\Livewire\Admin\UserComponent::class)->name('admin.user');
+
+
+
+
+
+
+
+
+
+Route::get('admin/user', \App\Http\Livewire\Admin\UserComponent::class)->name('admin.user');

@@ -1,0 +1,30 @@
+/*@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');*/
+@import '../../vendor/filament/forms/dist/module.esm.css';
+@tailwind base;
+input:invalid, textarea:invalid, select:invalid {
+    box-shadow: none;
+}
+@tailwind components;
+
+@tailwind utilities;
+
+[x-cloak] {
+    display: none;
+}
+@layer base {
+    .active-submenu {
+        @apply text-gray-800 dark:text-white;
+    }
+    .submenu-link {
+        @apply inline-flex items-center w-full font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-white;
+    }
+    .active {
+        @apply text-purple-700 dark:text-purple-400;
+    }
+    .sidebar-link {
+        @apply inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-purple-700 dark:hover:text-purple-400;
+    }
+    .sidebar-button {
+        @apply inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200;
+    }
+}

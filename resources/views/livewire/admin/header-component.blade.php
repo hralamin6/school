@@ -48,6 +48,7 @@
                 />
             </div>
         </div>
+
         <ul class="flex items-center flex-shrink-0 space-x-6">
             <!-- Theme toggler -->
             <li class="flex">
@@ -56,7 +57,7 @@
                     @click="toggleTheme"
                     aria-label="Toggle color mode"
                 >
-                    <template x-if="!dark">
+                    <template x-cloak="" x-if="!dark">
                         <svg
                             class="w-5 h-5"
                             aria-hidden="true"
@@ -68,7 +69,7 @@
                             ></path>
                         </svg>
                     </template>
-                    <template x-if="dark">
+                    <template x-cloak x-if="dark">
                         <svg
                             class="w-5 h-5"
                             aria-hidden="true"

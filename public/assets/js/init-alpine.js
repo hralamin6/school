@@ -41,7 +41,7 @@ function data() {
       this.isProfileMenuOpen = !this.isProfileMenuOpen
     },
     closeProfileMenu() {
-      // this.isProfileMenuOpen = false
+      this.isProfileMenuOpen = false
     },
     isPagesMenuOpen: false,
     togglePagesMenu() {
@@ -58,5 +58,14 @@ function data() {
       this.isModalOpen = false
       this.trapCleanup()
     },
+
+      isPage1: false,
+      togglePage1() {
+          this.isPage1 = !this.isPage1
+          this.isPagesMenuOpen = false
+
+      },
+
   }
+
 }

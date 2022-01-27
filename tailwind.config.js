@@ -1,5 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
-
+const colors = require('tailwindcss/colors');
 module.exports = {
     darkMode: 'class',
 
@@ -12,6 +12,12 @@ module.exports = {
     },
     variants: {
         extend: {
+            colors: {
+                danger: colors.rose,
+                primary: colors.blue,
+                success: colors.green,
+                warning: colors.yellow,
+            },
             backgroundColor: ['active'],
         }
     },
@@ -38,6 +44,7 @@ module.exports = {
             './vendor/laravel/jetstream/**/*.blade.php',
             './storage/framework/views/*.php',
             './resources/views/**/*.blade.php',
+            './vendor/filament/**/*.blade.php',
 
         ],
         options: {
