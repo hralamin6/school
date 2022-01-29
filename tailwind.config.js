@@ -5,6 +5,10 @@ module.exports = {
 
     theme: {
         extend: {
+            colors: {
+              'lightBg': '#F4F6F9',
+              'lightHeader': '#F8F9FA',
+            },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
             },
