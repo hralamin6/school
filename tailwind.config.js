@@ -7,7 +7,9 @@ module.exports = {
         extend: {
             colors: {
               'lightBg': '#F4F6F9',
-              'lightHeader': '#F8F9FA',
+                'darkBg': '#454D55',
+                'lightHeader': '#F8F9FA',
+                'darkSidebar': '#343A40',
             },
             fontFamily: {
                 sans: ['Inter var', ...defaultTheme.fontFamily.sans],
@@ -15,6 +17,7 @@ module.exports = {
         },
     },
     variants: {
+        scrollbar: ['dark'],
         extend: {
             colors: {
                 danger: colors.rose,
@@ -59,5 +62,6 @@ module.exports = {
     plugins: [
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
+        require('tailwind-scrollbar'),
     ],
 };
