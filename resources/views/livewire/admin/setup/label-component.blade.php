@@ -1,3 +1,159 @@
-<div>
-    {{-- Nothing in the world is as soft and yielding as water. --}}
+<div class=" rounded-xl mt-4" x-data="{openTable: $persist(true), modal: false, editMode: false}"
+     x-init="$wire.on('dataAdded', (e) => {
+            modal = false
+            editMode = false
+
+            element = document.getElementById(e.dataId)
+            console.log(element)
+            element.scrollIntoView({behavior: 'smooth'})
+            element.classList.add('bg-green-50')
+            setTimeout(() => {
+                element.classList.remove('bg-green-50')
+            }, 5000)
+            })
+@if (session('scrollToComment'))
+         const commentToScrollTo = document.getElementById({{session('scrollToComment')}})
+            commentToScrollTo.scrollIntoView({ behavior: 'smooth'})
+            commentToScrollTo.classList.add('bg-green-50')
+            setTimeout(() => {
+                commentToScrollTo.classList.remove('bg-green-50')
+            }, 5000)
+        @endif"
+
+     @open-delete-modal.window="
+     model = event.detail.model
+     eventName = event.detail.eventName
+Swal.fire({
+                title: event.detail.title,
+                text: event.detail.text,
+                icon: event.detail.icon,
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Livewire.emit(eventName, model )
+                }
+            })
+"
+>
+    <aside class="border dark:border-gray-600 row-span-4 bg-white dark:bg-darkSidebar" x-data="{rows: @entangle('selectedRows').defer, selectPage: @entangle('selectPageRows')}">
+        <div class="flex justify-between gap-3 bg-white border dark:border-gray-600 dark:bg-darkSidebar px-4 py-2">
+            <p class="text-gray-600 dark:text-gray-200">Products Table</p>
+            <div x-cloak x-show="rows.length > 0 " class="flex items-center justify-center" x-data="{bulk: false}">
+                <div class="relative inline-block">
+                    <!-- Dropdown toggle button -->
+                    <button @click="bulk=!bulk" class="relative z-10 block px-2 text-gray-700 bg-white border border-transparent rounded-md dark:text-white focus:border-blue-500 focus:ring-opacity-40 dark:focus:ring-opacity-40 focus:ring-blue-300 dark:focus:ring-blue-400 focus:ring dark:bg-gray-800 focus:outline-none">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-800 dark:text-white" viewBox="0 0 20 20" fill="currentColor">
+                            <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown menu -->
+                    <div x-show="bulk" class="absolute right-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl dark:bg-gray-800" @click.outside="bulk= false">
+                        <a @click="$dispatch('open-delete-modal', { title: 'Hello World!', text: 'you cant revert', icon: 'error', eventName: 'deleteMultiple', model: '' })" class="cursor-pointer block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                            your profile </a>
+                        <a wire:click.prevent="" class="cursor-pointer block px-4 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                            Your projects </a>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-center gap-4 text-gray-500 dark:text-gray-300 capitalize">
+                <button @click="modal = !modal" class="px-1 mt-1 mb-0.5 text-white pb-0.5 font-semibold text-xs bg-pink-400 rounded-lg">@lang('add new')</button>
+                <button class="" @click="openTable = !openTable">
+                    <svg x-show="openTable" xmlns="http://www.w3.org/2000/svg" class="h-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+                    </svg>
+                    <svg x-show="!openTable" xmlns="http://www.w3.org/2000/svg" class="h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </button>
+                <button class="">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+        @if ($selectedRows)
+
+            <span class="ml-2">selected {{ count($selectedRows) }} {{ Str::plural('appointment', count($selectedRows)) }}</span>
+        @endif
+        <div x-cloak x-show="openTable" x-collapse>
+            <div class="mb-1 overflow-y-scroll scrollbar-none">
+                <div class="w-full overflow-x-auto">
+                    <table class="w-full whitespace-no-wrap">
+                        <thead>
+                        <tr
+                            class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-300 dark:bg-darkSidebar"
+                        >
+                            <th class="px-4 py-3">
+                                <input x-model="selectPage" type="checkbox" value="" name="todo2" id="todoCheck2">
+                            </th>
+                            <th class="px-4 py-3">@lang('sl')</th>
+                            <th class="px-4 py-3">@lang('name')</th>
+                            <th class="px-4 py-3">@lang('status')</th>
+                            <th class="px-4 py-3">@lang('data')</th>
+                            <th class="px-4 py-3">@lang('action')</th>
+                        </tr>
+                        </thead>
+                        <tbody
+                            class="bg-white divide-y dark:divide-gray-700 dark:bg-darkSidebar"
+                        >
+                        @forelse($items as $i => $item)
+                            <tr id="item-id-{{$item->id}}" class="text-gray-700 dark:text-gray-300 capitalize" :class="{'bg-green-100': rows.includes('{{$item->id}}') }">
+                            <td class="px-4 py-3">
+                                <input x-model="rows" type="checkbox" value="{{ $item->id }}" name="todo2" id="{{ $item->id }}">
+                            </td>
+                            <td class="px-4 py-3">{{$items->firstItem() + $i}}</td>
+                            <td class="px-4 py-3 text-sm">{{$item->name}}</td>
+                            <td class="px-4 py-3 text-xs">
+                                <span wire:click.prevent="changeStatus({{$item->id}})" class=" cursor-pointer px-2 py-1 font-semibold rounded-full {{ $item->status? 'bg-green-300 dark:bg-green-700': 'bg-red-300 dark:bg-red-700' }} ">
+                                    {{ $item->status?__('active'):__('inactive') }}
+                                    <x-loader  wire:target="changeStatus({{$item->id}})"/>
+                                </span>
+                            </td>
+
+                            <td class="px-4 py-3 text-xs">{{$item->created_at->diffForHumans()}}</td>
+                            <td class="px-4 py-3 text-sm flex space-x-4">
+                                <x-h-o-pencil-alt @click="$wire.loadData({{$item->id}}), modal = true, editMode = true" class="w-5 text-purple-600 cursor-pointer"/>
+                                <x-h-o-trash @click.prevent="$dispatch('open-delete-modal', { title: 'Hello World!', text: 'you cant revert', icon: 'error', eventName: 'deleteSingle', model: {{$item->id}} })" class="w-5 text-pink-500 cursor-pointer"/>
+                            </td>
+                        </tr>
+                        @empty
+
+                        @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+        <div class="mx-auto my-4 px-4">
+            {{ $items->links() }}
+        </div>
+
+    </aside>
+
+    <div x-cloak x-show="modal">
+        <div class="fixed inset-0 z-10 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"></div>
+        <div @click.outside="modal = false" class="inset-0 py-8 rounded-2xl transition duration-150 ease-in-out z-50 absolute" id="modal">
+            <div class="container mx-auto w-11/12 md:w-2/3 max-w-lg ">
+                <form @submit.prevent="editMode? $wire.editData(): $wire.saveData()" class="relative py-8 px-5 md:px-10 bg-white shadow-md rounded border border-gray-400 capitalize">
+                    <h1 x-cloak x-show="!editMode" class="text-gray-800 font-lg font-bold tracking-normal text-center leading-tight mb-4">@lang('add new data')</h1>
+                    <h1 x-cloak x-show="editMode" class="text-gray-800 font-lg font-bold tracking-normal text-center leading-tight mb-4">@lang('edit this data')</h1>
+
+                    <label for="name" class="text-gray-800 text-sm font-bold leading-tight tracking-normal">@lang('name')</label>
+                    <input wire:model.lazy="state.name" class="mb-1 mt-2 text-gray-600 focus:outline-none focus:border focus:border-indigo-700 font-normal w-full h-10 flex items-center pl-3 text-sm border-gray-300 rounded border" placeholder="James" />
+                    @error('name')<p class="text-sm text-red-600">{{ $message }}</p>@enderror
+                    <div class="flex items-center justify-between w-full">
+                        <button @click="modal= false, editMode = false" class="focus:outline-none focus:ring-2 focus:ring-offset-2  focus:ring-gray-400 bg-gray-100 transition duration-150 text-gray-600 ease-in-out hover:border-gray-400 hover:bg-gray-300 border rounded px-8 py-2 text-sm">Cancel</button>
+                        <button class="focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 transition duration-150 ease-in-out hover:bg-indigo-600 bg-indigo-700 rounded text-white px-8 py-2 text-sm">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

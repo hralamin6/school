@@ -32,16 +32,16 @@ input:invalid, textarea:invalid, select:invalid {
 }
 @layer base {
     .navMenuLink {
-        @apply m-2 px-3 py-2 flex justify-start rounded-md gap-2 hover:bg-purple-600 hover:text-white dark:text-gray-200;
+        @apply m-2 px-3 py-2 flex justify-start rounded-md gap-2 hover:bg-purple-600 hover:text-white;
     }
     .subNavMenuLink {
-        @apply m-2 px-3 py-0 flex justify-start rounded-md gap-2 hover:text-purple-800 dark:text-gray-300;
+        @apply m-2 px-3 py-0 flex justify-start rounded-md gap-2 hover:text-purple-800;
     }
     .navActive {
         @apply bg-purple-600 text-white;
     }
     .subNavActive {
-        @apply text-purple-800;
+        @apply text-purple-800 dark:text-purple-400;
     }
     .navInactive {
         @apply text-gray-700 dark:text-gray-200;

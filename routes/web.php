@@ -9,6 +9,7 @@ use App\Http\Livewire\Auth\Passwords\Email;
 use App\Http\Livewire\Auth\Passwords\Reset;
 use App\Http\Livewire\Auth\Register;
 use App\Http\Livewire\Auth\Verify;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -60,6 +61,26 @@ Route::get('admin/user', \App\Http\Livewire\Admin\UserComponent::class)->name('a
 
 
 
+Route::get('optimize', function () {
+    Artisan::call('optimize');
+    return "php artisan optimized successfully";
+})->name('optimize');
+Route::get('migrate', function () {
+    Artisan::call('migrate');
+    return "php artisan migrate successfully";
+})->name('migrate');
+Route::get('migrate-fresh', function () {
+    Artisan::call('migrate:fresh --seed');
+    return "php artisan migrate-fresh successfully";
+})->name('migrate.fresh');
+Route::get('migrate-rollback', function () {
+    Artisan::call('migrate:rollback');
+    return "php artisan migrate-rollback successfully";
+})->name('migrate.rollback');
+Route::get('db-seed', function () {
+    Artisan::call('db:seed');
+    return "php artisan db:seed successfully";
+})->name('db.seed');
 
 
 

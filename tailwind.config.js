@@ -60,8 +60,10 @@ module.exports = {
         },
     },
     plugins: [
+        require('tailwind-scrollbar'),
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
-        require('tailwind-scrollbar'),
+        // require('tailwindcss-multi-theme'),
+        require('@tailwindcss/custom-forms'),
     ],
 };
