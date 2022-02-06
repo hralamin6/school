@@ -1,5 +1,4 @@
 /*@import url('https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css');*/
-@import '../../vendor/filament/forms/dist/module.esm.css';
 @tailwind base;
 input:invalid, textarea:invalid, select:invalid {
     box-shadow: none;
@@ -35,16 +34,16 @@ input:invalid, textarea:invalid, select:invalid {
         @apply m-2 px-3 py-2 flex justify-start rounded-md gap-2 hover:bg-purple-600 hover:text-white;
     }
     .subNavMenuLink {
-        @apply m-2 px-3 py-0 flex justify-start rounded-md gap-2 hover:text-purple-800;
+        @apply m-2 px-3 py-2 flex justify-start rounded-md gap-2 hover:bg-gray-200 hover:text-gray-700 dark:hover:bg-gray-600 dark:hover:text-gray-100;
     }
     .navActive {
         @apply bg-purple-600 text-white;
     }
-    .subNavActive {
-        @apply text-purple-800 dark:text-purple-400;
-    }
     .navInactive {
         @apply text-gray-700 dark:text-gray-200;
+    }
+    .subNavActive {
+        @apply bg-gray-200 text-gray-700 dark:bg-gray-600 dark:text-gray-100;
     }
     .subNavInactive {
         @apply text-gray-500 dark:text-gray-300;

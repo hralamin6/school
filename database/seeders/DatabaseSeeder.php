@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Conversation;
 use App\Models\Setup;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -29,12 +30,19 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
             'password'=>Hash::make('000000')
         ]);
+        \App\Models\User::factory(10)->create()->each(function ($user){
+            Conversation::factory(1)->create([
+                'sender_id' => $user->id,
+                'receiver_id' => 1
+            ]);
+        });
         \App\Models\Setup::factory(1)->create();
         $this->call(LabelSeeder::class);
         $this->call(YearSeeder::class);
         $this->call(GroupSeeder::class);
         $this->call(ShiftSeeder::class);
         $this->call(MediumSeeder::class);
+
 
 
 //        $this->call(DivisionSeeder::class);

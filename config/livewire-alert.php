@@ -7,13 +7,13 @@
 return [
     'alert' => [
         'position' => 'top-end',
-        'timer' => 2000,
+        'timer' => 3000,
         'toast' => true,
         'text' => null,
         'showCancelButton' => false,
         'showConfirmButton' => false,
         'timerProgressBar' => true,
-        'width' => '250',
+//        'width' => '400',
 
     ],
     'confirm' => [

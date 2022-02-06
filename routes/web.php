@@ -38,10 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::get('password/confirm', Confirm::class)->name('password.confirm');
 });
 
-Route::middleware('auth')->group(function () {
-    Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)->middleware('signed')->name('verification.verify');
-    Route::post('logout', LogoutController::class)->name('logout');
-});
 
 Route::get('admin', DashboardComponent::class)->name('admin.dashboard');
 //setup
@@ -85,6 +81,16 @@ Route::get('db-seed', function () {
 
 
 
+Route::middleware('auth')->group(function () {
+    Route::get('admin/user', \App\Http\Livewire\Admin\UserComponent::class)->name('admin.user');
+    Route::get('/message',\App\Http\Livewire\MessageComponent::class)->name('message');
 
 
-Route::get('admin/user', \App\Http\Livewire\Admin\UserComponent::class)->name('admin.user');
+
+
+    Route::get('email/verify/{id}/{hash}', EmailVerificationController::class)->middleware('signed')->name('verification.verify');
+    Route::post('logout', LogoutController::class)->name('logout');
+});
+
+
+

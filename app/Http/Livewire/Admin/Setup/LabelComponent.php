@@ -13,14 +13,79 @@ class LabelComponent extends Component
 {
     use WithPagination;
     use LivewireAlert;
-    public $state = [];
-    public $label;
-//    protected $queryString = ['status'];
+    public $label, $name;
+    protected $queryString = [
+        'page'
+    ];
     public $selectedRows = [];
     public $selectPageRows = false;
+    public $itemPerPage = 5;
     protected $listeners = ['deleteMultiple', 'deleteSingle'];
 
 
+    public function getDataProperty()
+    {
+        return Label::Paginate($this->itemPerPage);
+    }
+
+    public function loadData(Label $label)
+    {
+        $this->reset('name');
+        $this->label = $label;
+        $this->name = $label->name;
+        $this->emit('openEditModal');
+    }
+
+    public function openModal()
+    {
+        $this->reset('name');
+        $this->emit('openModal');
+
+    }
+    public function editData()
+    {
+       $data = $this->validate([
+            'name' => ['required', 'min:2', 'max:33', Rule::unique('labels', 'name')->ignore($this->label['id'])],
+        ]);
+        $this->label->update($data);
+        $this->emit('dataAdded', ['dataId' => 'item-id-'.$this->label->id]);
+        $this->alert('success', __('Data updated successfully'));
+        $this->reset('name');
+    }
+    public function saveData()
+    {
+        $data =  $this->validate([
+            'name' => ['required', 'min:2', 'max:33', Rule::unique('labels', 'name')],
+        ]);
+        $data = Label::create($data);
+        $this->goToPage($this->getDataProperty()->lastPage());
+        $this->emit('dataAdded', ['dataId' => 'item-id-'.$data->id]);
+        $this->alert('success', __('Data saved successfully'));
+        $this->reset('name');
+    }
+
+    public function updatedSelectPageRows($value)
+    {
+        if ($value) {
+            $this->selectedRows = $this->data->pluck('id')->map(function ($id) {
+                return (string) $id;
+            });
+        } else {
+            $this->reset('selectedRows', 'selectPageRows');
+        }
+    }
+    public function changeStatus(Label $label)
+    {
+        $label->status?$label->update(['status'=>0]):$label->update(['status'=>1]);
+        $this->alert('success', 'Basic Alert');
+        $this->emit('dataAdded');
+    }
+
+    public function render()
+    {
+        $items = $this->data;
+        return view('livewire.admin.setup.label-component', compact('items'));
+    }
     public function deleteMultiple()
     {
         Label::whereIn('id', $this->selectedRows)->delete();
@@ -33,66 +98,4 @@ class LabelComponent extends Component
         $this->alert('success', __('Data deleted successfully'));
     }
 
-    public function loadData(Label $label)
-    {
-        $this->label = $label;
-        $this->state = $label->toArray();
-    }
-
-    public function editData()
-    {
-        Validator::make( $this->state, [
-            'name' => ['required', 'min:2', 'max:33', Rule::unique('labels', 'name')->ignore($this->state['id'])],
-        ])->validate();
-        $this->label->update($this->state);
-        $this->goToPage($this->getDataProperty()->lastPage());
-        $this->emit('dataAdded', ['dataId' => 'item-id-'.$this->label->id]);
-        $this->alert('success', __('Data updated successfully'));
-        $this->reset('state');
-    }
-    public function saveData()
-    {
-        $this->resetErrorBag();
-        $this->resetValidation();
-        Validator::make( $this->state, [
-                'name' => 'required|unique:labels|max:22',
-            ])->validate();
-        $data = Label::create($this->state, ['status' => 1]);
-//        $this->goToPage($this->getDataProperty()->lastPage());
-        $this->emit('dataAdded', ['dataId' => 'item-id-'.$data->id]);
-        $this->alert('success', __('Data saved successfully'));
-        $this->reset('state');
-
-    }
-
-    public function updatedSelectPageRows($value)
-    {
-//dd($value);
-        if ($value) {
-            $this->selectedRows = $this->data->pluck('id')->map(function ($id) {
-                return (string) $id;
-            });
-        } else {
-//            $this->selectedRows=[];
-//            $this->selectedPageRows=false;
-            $this->reset('selectedRows', 'selectPageRows');
-        }
-
-    }
-    public function changeStatus(Label $label)
-    {
-        $label->status?$label->update(['status'=>0]):$label->update(['status'=>1]);
-        $this->alert('success', 'Basic Alert');
-    }
-
-    public function getDataProperty()
-    {
-        return Label::Paginate(40);
-    }
-
-    public function render()
-    {
-        $items = $this->data;
-        return view('livewire.admin.setup.label-component', compact('items'));
-    }
 }
