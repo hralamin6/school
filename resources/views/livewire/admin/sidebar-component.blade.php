@@ -18,6 +18,10 @@
                 <x-h-o-home class="w-5"/>
                 <span class="">{{__('dashboard')}}</span>
             </a>
+            <a href="{{route('admin.quiz')}}" class="navMenuLink {{Route::is('admin.quiz')?'navActive':'navInactive'}}">
+                <x-h-o-home class="w-5"/>
+                <span class="">{{__('quiz')}}</span>
+            </a>
             {{--            <div @if(Route::is('admin.setup.*')) x-data="{setup: true}" @else x-data="{setup: false}" @endif>--}}
             <div  x-data="{setup: @if(Route::is('admin.setup.*')) true @else false @endif}">
                 <div @click="setup= !setup"  class="navMenuLink {{Route::is('admin.setup.*')?'navActive':'navInactive'}}">

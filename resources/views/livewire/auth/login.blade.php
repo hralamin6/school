@@ -1,6 +1,6 @@
 @section('title', 'Sign in to your account')
 
-<div>
+<div x-data>
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
         <a href="{{ route('home') }}">
             <x-logo class="w-auto h-16 mx-auto text-indigo-600" />
@@ -72,6 +72,8 @@
                         </button>
                     </span>
                 </div>
+                <button  x-on:click="$wire.set('email', 'admin@gmail.com'); $wire.set('password', '000000'); $wire.authenticate();" class="my-6 mx-auto text-purple-600 bg-base-100">Admin</button>
+
             </form>
         </div>
     </div>

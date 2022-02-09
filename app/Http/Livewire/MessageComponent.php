@@ -22,9 +22,8 @@ class MessageComponent extends Component
             ->where('sender_id', auth()->id())
             ->orWhere('receiver_id', auth()->id())
             ->orderBy('updated_at', 'desc')
-            ->firstOrFail();
+            ->first();
     }
-
     public function viewMessage($conversationId)
     {
         $this->selectedConversation = Conversation::findOrFail($conversationId);
@@ -46,12 +45,12 @@ class MessageComponent extends Component
             'user_id'=>auth()->id(),
             'body'=>$this->body,
         ]);
+        $this->viewMessage($this->selectedConversation->id);
         $this->selectedConversation->touch();
         if (($this->image)) {
             $message->addMedia($this->image->getRealPath())->toMediaCollection('message');
         }
         broadcast(new MessageSentEvent($message))->toOthers();
-        $this->viewMessage($this->selectedConversation->id);
         $this->emit('dataAdded', ['dataId' => $this->selectedConversation->id]);
 
         $this->dispatchBrowserEvent('scrollHeight');
@@ -67,23 +66,21 @@ class MessageComponent extends Component
 
     public function render()
     {
-        $last_message = $this->selectedConversation->messages->last();
-        if ($last_message){
-            if ($this->selectedConversation!=null && $last_message->user_id!=Auth::id()){
-                foreach ($this->selectedConversation->messages->where('status',0) as $message){
-                    $message->update(['status'=>1]);
+        if ($this->selectedConversation!=null){
+            $last_message = $this->selectedConversation->messages->last();
+            if ($last_message){
+                if ($this->selectedConversation!=null && $last_message->user_id!=Auth::id()){
+                    foreach ($this->selectedConversation->messages->where('status',0) as $message){
+                        $message->update(['status'=>1]);
+                    }
                 }
             }
-
         }
         $conversations = Conversation::query()
             ->where('sender_id', auth()->id())
             ->orWhere('receiver_id', auth()->id())
             ->orderBy('updated_at', 'desc')
             ->get();
-
-//        dd($this->selectedConversation->messages()->whereStatus(0)->count());
-
         return view('livewire.message-component', [
             'conversations' => $conversations
         ]);

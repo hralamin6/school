@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Conversation;
+use App\Models\Option;
+use App\Models\Question;
 use App\Models\Setup;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -35,6 +37,18 @@ class DatabaseSeeder extends Seeder
                 'sender_id' => $user->id,
                 'receiver_id' => 1
             ]);
+        });
+        \App\Models\Quiz::factory(10)->create()->each(function ($quiz){
+            Question::factory(20)->create([
+                'user_id' => 1,
+                'quiz_id' => $quiz->id
+            ])->each(function ($question){
+               $option = Option::factory(4)->create([
+                    'question_id' => $question->id
+                ])->each(function ($option){
+                   $option->question->update(['answer' => $option->id]);
+            });
+        });
         });
         \App\Models\Setup::factory(1)->create();
         $this->call(LabelSeeder::class);

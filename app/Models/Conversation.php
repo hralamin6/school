@@ -17,14 +17,13 @@ class Conversation extends Model
     {
         return $this->hasMany(Message::class);
     }
-
     public function sender()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 
     public function receiver()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)->withDefault();
     }
 }

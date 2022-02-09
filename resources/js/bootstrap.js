@@ -14,7 +14,6 @@
 // Alpine.plugin(Focus)
 
 import Echo from "laravel-echo"
-import Pusher from "pusher-js"
 window.Pusher = require('pusher-js');
 
 window.Echo = new Echo({

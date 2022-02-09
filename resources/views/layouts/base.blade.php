@@ -10,20 +10,17 @@
     @endif
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link rel="shortcut icon" href="{{ url(asset('favicon.ico')) }}">
-    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     @livewireStyles
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <script defer src="https://unpkg.com/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://unpkg.com/@alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/echo.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
     @stack('js')
-
 </head>
 <body class="dark:bg-darkBg text-tahiti scrollbar-none" x-data="{nav: false, dark: $persist(false)}" :class="{'dark': dark}">
-<div class="dark:bg-darkBg flex h-screen" :class="{ 'overflow-hidden': nav }">
+<div class="dark:bg-darkBg flex h-screen"
+     :class="{ 'overflow-hidden': nav }"
+>
     <div x-cloak
          x-show="nav"
          x-transition:enter="transition ease-in-out duration-150"
@@ -55,6 +52,6 @@
 @livewireScripts
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-livewire-alert::scripts />
-<script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false"></script>
+<script src="{{ asset('js/spa.js') }}" data-turbolinks-eval="false"></script>
 </body>
 </html>

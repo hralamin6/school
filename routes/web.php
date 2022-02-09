@@ -83,6 +83,11 @@ Route::get('db-seed', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('admin/user', \App\Http\Livewire\Admin\UserComponent::class)->name('admin.user');
+    Route::get('admin/quiz', \App\Http\Livewire\Admin\QuizComponent::class)->name('admin.quiz');
+    Route::get('quiz/{quiz}/exam', \App\Http\Livewire\Quiz\ExamComponent::class)->name('quiz.exam');
+    Route::get('quiz/{quiz}/result', \App\Http\Livewire\Quiz\ResultComponent::class)->name('quiz.result');
+    Route::get('admin/quiz/{quiz}/question', \App\Http\Livewire\Admin\QuestionComponent::class)->name('admin.question');
+    Route::get('admin/quiz/{quiz}/question/{question}/option', \App\Http\Livewire\Admin\OptionComponent::class)->name('admin.option');
     Route::get('/message',\App\Http\Livewire\MessageComponent::class)->name('message');
 
 

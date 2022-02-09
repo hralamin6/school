@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Auth;
 
+use App\Models\Conversation;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +37,10 @@ class Register extends Component
             'name' => $this->name,
             'password' => Hash::make($this->password),
         ]);
-
+        Conversation::factory(1)->create([
+            'sender_id' => $user->id,
+            'receiver_id' => 1
+        ]);
         event(new Registered($user));
 
         Auth::login($user, true);

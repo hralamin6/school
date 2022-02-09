@@ -14,6 +14,7 @@ require("laravel-mix-tailwind");
  */
 
 mix.js("resources/js/app.js", "public/js/app.js")
+    .js("resources/js/bootstrap.js", "public/js/echo.js")
     .css("resources/css/app.css", "public/css/app.css")
     .tailwind("./tailwind.config.js")
     .sourceMaps();
